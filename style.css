@@ -1,0 +1,450 @@
+:root {
+    --stand-purple: #4B0082;
+    --giorno-gold: #FFD700;
+    --giorno-pink: #ff1493;
+    --diavolo-red: #8b0000;
+    --accent-teal: #008080;
+    --bg-dark: #1a0b2e;
+    --glass-bg: rgba(75, 0, 130, 0.4);
+    --glass-border: rgba(255, 215, 0, 0.3);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-dark);
+    /* JoJo Part 5 Argyle Pattern */
+    background-image:
+        linear-gradient(135deg, #2a1b3e 25%, transparent 25%),
+        linear-gradient(225deg, #2a1b3e 25%, transparent 25%),
+        linear-gradient(45deg, #2a1b3e 25%, transparent 25%),
+        linear-gradient(315deg, #2a1b3e 25%, transparent 25%);
+    background-position: 40px 0, 40px 0, 0 0, 0 0;
+    background-size: 80px 80px;
+    background-repeat: repeat;
+    color: var(--giorno-gold);
+    font-family: 'Playfair Display', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    /* Prevent scroll during effects */
+}
+
+.game-container {
+    position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--giorno-gold);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 20px var(--stand-purple),
+        inset 0 0 20px rgba(255, 215, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 95vw;
+    z-index: 10;
+}
+
+/* --- Typography & Header --- */
+.jojo-title {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    margin: 0 0 20px 0;
+    text-shadow: 2px 2px var(--giorno-pink), -1px -1px var(--accent-teal);
+    letter-spacing: 2px;
+    background: linear-gradient(to bottom, #FFD700, #DAA520);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-bottom: 2px solid var(--giorno-pink);
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+/* --- Controls --- */
+.controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+#difficulty-select {
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--giorno-gold);
+    border: 1px solid var(--giorno-gold);
+    padding: 8px;
+    font-family: 'Cinzel', serif;
+    cursor: pointer;
+}
+
+.stand-btn {
+    background: linear-gradient(45deg, var(--stand-purple), #2a004d);
+    color: var(--giorno-gold);
+    border: 1px solid var(--giorno-gold);
+    padding: 10px 20px;
+    font-family: 'Cinzel', serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+}
+
+.stand-btn:hover {
+    background: var(--giorno-pink);
+    color: white;
+    box-shadow: 0 0 15px var(--giorno-pink);
+    transform: translateY(-2px);
+}
+
+/* --- Stats --- */
+.stats-panel {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 15px;
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+}
+
+.stat-box {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border: 1px solid var(--giorno-gold);
+    border-radius: 5px;
+    display: flex;
+    gap: 10px;
+}
+
+/* --- Game Board --- */
+.game-board {
+    display: grid;
+    gap: 2px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, rgba(75, 0, 130, 0.8), rgba(40, 0, 80, 0.8));
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+}
+
+.cell:hover {
+    background: rgba(255, 20, 147, 0.4);
+}
+
+.cell.revealed {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cell.mine {
+    background: var(--diavolo-red);
+    animation: shake 0.5s;
+}
+
+.cell.flag {
+    color: var(--giorno-pink);
+}
+
+/* Number Colors */
+.cell[data-num="1"] {
+    color: #00ffff;
+    text-shadow: 0 0 5px #00ffff;
+}
+
+.cell[data-num="2"] {
+    color: #00ff00;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+.cell[data-num="3"] {
+    color: #ff00ff;
+    text-shadow: 0 0 5px #ff00ff;
+}
+
+.cell[data-num="4"] {
+    color: #ffff00;
+    text-shadow: 0 0 5px #ffff00;
+}
+
+.cell[data-num="5"] {
+    color: #ff4500;
+}
+
+.cell[data-num="6"] {
+    color: #8a2be2;
+}
+
+.cell[data-num="7"] {
+    color: #fff;
+}
+
+.cell[data-num="8"] {
+    color: #808080;
+}
+
+/* --- Undo Button (King Crimson) --- */
+.undo-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.king-crimson-btn {
+    background: linear-gradient(to right, #8b0000, #ff0000);
+    border: 2px solid white;
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: pulse-red 2s infinite;
+}
+
+.king-crimson-btn .sub-text {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+/* --- Effects --- */
+.hidden {
+    display: none !important;
+}
+
+.effect-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+/* Punch Animation */
+@keyframes punch-in {
+    0% {
+        transform: scale(0.1) translateZ(0);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.5) translateZ(0);
+        opacity: 1;
+    }
+}
+
+@keyframes shake-screen {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-10px, 10px);
+    }
+
+    50% {
+        transform: translate(10px, -10px);
+    }
+
+    75% {
+        transform: translate(-10px, -10px);
+    }
+}
+
+.punch-arm {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(139, 0, 0, 1) 0%, rgba(139, 0, 0, 0) 70%);
+    position: absolute;
+    /* In a real scenario we'd use an image, but css gradient for now */
+    border-radius: 50%;
+    transform: scale(0);
+}
+
+.punch-active .punch-arm {
+    animation: punch-in 0.2s forwards cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+
+.punch-active body {
+    animation: shake-screen 0.3s 0.2s;
+    /* Shake after impact */
+}
+
+/* Time Erase Glitch */
+@keyframes glitch-anim {
+    0% {
+        clip-path: inset(10% 0 80% 0);
+        transform: translate(-5px, 0);
+    }
+
+    20% {
+        clip-path: inset(80% 0 10% 0);
+        transform: translate(5px, 0);
+    }
+
+    40% {
+        clip-path: inset(30% 0 10% 0);
+        transform: translate(-5px, 0);
+    }
+
+    60% {
+        clip-path: inset(10% 0 60% 0);
+        transform: translate(5px, 0);
+    }
+
+    80% {
+        clip-path: inset(40% 0 20% 0);
+        transform: translate(-5px, 0);
+    }
+
+    100% {
+        clip-path: inset(0 0 0 0);
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes red-flash {
+    0% {
+        background: rgba(255, 0, 0, 0);
+    }
+
+    50% {
+        background: rgba(255, 0, 0, 0.5);
+    }
+
+    100% {
+        background: rgba(255, 0, 0, 0);
+    }
+}
+
+.time-erase-overlay .glitch-layer {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    backdrop-filter: invert(1) contrast(2);
+}
+
+.erase-active .glitch-layer {
+    animation: glitch-anim 0.5s steps(10) infinite;
+}
+
+.erase-active .red-tint {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation: red-flash 1s;
+}
+
+@keyframes pulse-red {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 20px rgba(255, 0, 0, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+    }
+}
+/* --- Start Screen --- */
+.start-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: var(--bg-dark);
+    /* Same bg pattern */
+    background-image: 
+        linear-gradient(135deg, #2a1b3e 25%, transparent 25%),
+        linear-gradient(225deg, #2a1b3e 25%, transparent 25%),
+        linear-gradient(45deg, #2a1b3e 25%, transparent 25%),
+        linear-gradient(315deg, #2a1b3e 25%, transparent 25%);
+    background-position: 40px 0, 40px 0, 0 0, 0 0;
+    background-size: 80px 80px;
+    background-repeat: repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    transition: transform 0.5s ease-in-out;
+}
+
+.start-screen.hidden-up {
+    transform: translateY(-100%);
+    pointer-events: none;
+}
+
+.big-title {
+    font-size: 5rem;
+    margin-bottom: 0;
+}
+
+.subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--giorno-gold);
+    margin-bottom: 40px;
+    opacity: 0.8;
+}
+
+.difficulty-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.menu-btn {
+    font-size: 1.5rem;
+    width: 300px;
+    text-align: center;
+    padding: 20px;
+    border: 2px solid var(--giorno-gold);
+}
+
+.game-container.hidden {
+    display: none;
+}
+
+
+/* --- Win Screen --- */
+.win-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(26, 11, 46, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 300;
+}
+
+.win-screen.hidden {
+    display: none;
+}
+
